@@ -146,12 +146,47 @@ h1 {
     height: auto;
     display: block;
 
-    /* Ajuste fino de tamaño */
+    /* Ajuste fino (PC por defecto) */
     transform: scale(1);
     transform-origin: bottom center;
 
     user-select: none;
     -webkit-user-drag: none;
+}
+
+/* ===== Ajuste rifles por dispositivo (PC / Tablet / Celular) ===== */
+
+/* Tablets */
+@media (max-width: 1024px){
+    .rifle-container{
+        bottom: -170px;
+        width: min(1050px, 125vw);
+    }
+    .rifle-image{
+        transform: scale(0.95);
+    }
+}
+
+/* Celular */
+@media (max-width: 600px){
+    .rifle-container{
+        bottom: -210px;            /* más abajo para que no tape agua/patos */
+        width: min(900px, 170vw);  /* más ancho relativo para “llenar” */
+    }
+    .rifle-image{
+        transform: scale(0.82);    /* scale celular */
+    }
+}
+
+/* Celular chico */
+@media (max-width: 380px){
+    .rifle-container{
+        bottom: -225px;
+        width: min(820px, 190vw);
+    }
+    .rifle-image{
+        transform: scale(0.78);
+    }
 }
 
 /* --- INTERFAZ --- */
