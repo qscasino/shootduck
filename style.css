@@ -189,6 +189,12 @@ h1 {
     }
 }
 
+@media (min-width: 1025px){
+  .rifle-image{
+    transform: scale(0.50);
+  }
+}
+
 /* --- INTERFAZ --- */
 #score-board {
     position: absolute; top: 150px; left: 50%; transform: translateX(-50%);
