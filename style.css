@@ -1,0 +1,198 @@
+/* --- ESTILOS GENERALES --- */
+:root {
+  --curtain-red: #b71c1c;
+  --curtain-shadow: #7f0000;
+  --banner-gold: #ffca28;
+
+  /* --- COLORES DE FONDO (ATARDECER OSCURO) --- */
+  --bg-sun-center: #f8bbd0;
+  --bg-ray-light: #ec407a;
+  --bg-ray-dark: #880e4f;
+
+  /* --- COLORES DE AGUA Y ELEMENTOS --- */
+  --wave-back: #42a5f5;
+  --wave-front: #1e88e5;
+  --bush-green: #2e7d32;
+
+  /* ✅ Ajustes rápidos para la imagen de rifles */
+  --rifles-bottom: -140px; /* más negativo = más abajo (más “cortados”) */
+  --rifles-scale: 1.05;   /* tamaño general */
+  --rifles-x: 0px;        /* mover izquierda/derecha */
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Arial Black', sans-serif;
+  background-color: #222;
+  cursor: crosshair;
+}
+
+#game-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* --- 1. FONDO: SOL ATARDECER OSCURO --- */
+.stage-background {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 1;
+  background-image:
+    radial-gradient(circle at 50% 90%, var(--bg-sun-center) 5%, transparent 60%),
+    repeating-conic-gradient(
+      from 0deg at 50% 90%,
+      var(--bg-ray-light) 0deg 15deg,
+      var(--bg-ray-dark) 15deg 30deg
+    );
+}
+
+/* --- CORTINAS Y BANNER --- */
+.curtain {
+  position: absolute; top: 0; height: 100%; width: 15%;
+  background: repeating-linear-gradient(90deg, var(--curtain-red), var(--curtain-red) 40px, var(--curtain-shadow) 40px, var(--curtain-shadow) 80px);
+  z-index: 20;
+  box-shadow: 5px 0 20px rgba(0,0,0,0.8);
+}
+.left-curtain { left: 0; border-right: 5px solid var(--banner-gold); }
+.right-curtain { right: 0; border-left: 5px solid var(--banner-gold); }
+
+.top-banner {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 60%; height: 120px; background: var(--curtain-red);
+  border: 5px solid var(--banner-gold); border-top: none;
+  border-radius: 0 0 50% 50% / 0 0 30px 30px;
+  display: flex; justify-content: center; align-items: center;
+  z-index: 21; box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+}
+
+h1 {
+  margin: 0; color: var(--banner-gold); font-size: 4rem;
+  text-shadow: 3px 3px 0px #000; letter-spacing: 5px;
+}
+
+.stage-floor {
+  position: absolute; bottom: 0; width: 100%; height: 40px;
+  background: repeating-linear-gradient(90deg, #ef6c00, #ef6c00 50px, #e65100 50px, #e65100 100px);
+  border-top: 5px solid var(--banner-gold); z-index: 25;
+}
+
+/* --- 2. OLAS --- */
+.waves-layer {
+  position: absolute; bottom: 40px; width: 100%;
+  pointer-events: none; overflow: hidden;
+}
+.back-layer { height: 260px; z-index: 2; }
+.front-layer { height: 190px; z-index: 5; }
+
+.wave {
+  position: absolute; width: 200%; left: 0; bottom: 0; height: 100%;
+  background-repeat: repeat-x;
+  background-image: radial-gradient(circle at 50px 0, transparent 50px, var(--wave-color) 51px);
+  background-size: 100px 200px;
+}
+
+.wave-back {
+  --wave-color: var(--wave-back);
+  animation: waveLoop 8s linear infinite;
+}
+.wave-front {
+  --wave-color: var(--wave-front);
+  animation: waveLoop 6s linear infinite reverse;
+}
+
+@keyframes waveLoop {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100px); }
+}
+
+/* --- 3. ARBUSTOS --- */
+.bush {
+  position: absolute; bottom: 0; z-index: 10;
+  width: 160px; height: 100px;
+  background: var(--bush-green);
+  border-radius: 100px 100px 0 0;
+  box-shadow: inset -5px -10px 20px rgba(0,0,0,0.3);
+  border: 3px solid #1b5e20;
+}
+.bush-left { left: -30px; }
+.bush-right { right: -30px; }
+
+/* ✅ 4. RIFLES COMO IMAGEN (Reemplaza el rifle CSS) */
+#rifles-layer{
+  position: absolute;
+  left: calc(50% + var(--rifles-x));
+  bottom: var(--rifles-bottom);
+  transform: translateX(-50%);
+  width: min(1200px, 120vw); /* responsivo */
+  z-index: 30;               /* donde estaba el rifle */
+  pointer-events: none;      /* no tapa clicks */
+}
+
+#rifles-layer img{
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: scale(var(--rifles-scale));
+  transform-origin: bottom center;
+  filter: drop-shadow(0 12px 18px rgba(0,0,0,0.55));
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* --- INTERFAZ --- */
+#score-board {
+  position: absolute; top: 150px; left: 50%; transform: translateX(-50%);
+  color: white; font-size: 2rem; background: rgba(0,0,0,0.8);
+  padding: 10px 30px; border-radius: 20px; border: 3px solid var(--banner-gold); z-index: 100;
+}
+
+#start-btn {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background: var(--banner-gold); color: #c0392b;
+  padding: 20px 50px; font-size: 2.5rem;
+  border: 4px solid #fff; border-radius: 10px; cursor: pointer;
+  z-index: 200; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  font-weight: 800; text-transform: uppercase;
+}
+#start-btn:hover {
+  background: #ffca28;
+  transform: translate(-50%, -50%) scale(1.05);
+  color: #b71c1c;
+}
+
+/* --- PATOS --- */
+#ducks-layer {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 4;
+}
+
+.duck-container {
+  position: absolute; bottom: 170px; width: 80px; height: 150px; z-index: 3;
+  animation: moveDuck linear forwards;
+}
+
+.duck-stick {
+  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 6px; height: 100px; background: #3e2723; border-radius: 0 0 3px 3px;
+}
+
+.duck-body {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  font-size: 60px; line-height: 1;
+  filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3));
+  cursor: crosshair;
+}
+
+.duck-hit {
+  transform: scale(1.2) rotate(20deg);
+  opacity: 0;
+  transition: all 0.3s ease-out;
+}
+
+@keyframes moveDuck {
+  from { left: -100px; }
+  to { left: calc(100vw + 100px); }
+}
