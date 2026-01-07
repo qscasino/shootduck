@@ -163,7 +163,7 @@ h1 {
         width: min(1050px, 125vw);
     }
     .rifle-image{
-        transform: scale(0.95);
+        transform: scale(0.50);
     }
 }
 
