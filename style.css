@@ -147,7 +147,7 @@ h1 {
     display: block;
 
     /* Ajuste fino (PC por defecto) */
-    transform: scale(1);
+    transform: scale(0.50);
     transform-origin: bottom center;
 
     user-select: none;
